@@ -1,0 +1,105 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h1 style="text-align: center">Students</h1><br>
+    <div class="row" [hidden]="!deleteMessage"> 
+
+      <div class="col-sm-4"></div>
+      <div class="col-sm-4">
+        <div class="alert alert-info alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <strong>Student Data Deleted</strong>
+        </div>
+      </div>
+      <div class="col-sm-4"></div>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <table class="table table-hover table-sm" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+      <thead class="thead-light">
+        <tr>
+          <th>Student Name</th>
+          <th>Student Email</th>
+          <th>Student Branch</th>
+          <th>Action</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let student of students|async">
+          <tr>
+            <td>{{student.student_name}}</td>
+            <td>{{student.student_email}}</td>
+            <td>{{student.student_branch}}</td>
+            <td> <button (click)="updateStudent(student)" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Update</button></td>
+            <td> <button type="button" class="btn btn-danger"(click)="deleteStudent(student.student_id)">Delete</button></td>
+           <!---- <td><button (click)="deleteStudent(student.student_id)" class='btn btn-primary'><i
+                  class="fa fa-futboll-0">Delete</i></button>&nbsp;
+              <button (click)="updateStudent(student.student_id)" class='btn btn-info' data-toggle="modal"
+                data-target="#myModal">Update</button>
+            </td>-->
+          </tr>
+        </ng-container>
+      </tbody><br>
+    </table>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Update Student</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="studentupdateform" #updatestudent (ngSubmit)="updateStu(studentToUpdate)">
+          <div class="form-group">
+              <label for="name">Student Name</label>
+              <input type="text" class="form-control"  formControlName="student_name" [(ngModel)]="studentToUpdate.student_name">
+              <div class="alert alert-danger" *ngIf = "(StudentName?.touched) && (StudentName?.invalid)" 
+                style="margin-top: 5px;">
+                  <span *ngIf="StudentName?.errors?.['required']">Student Name is Required</span>
+                    <span *ngIf = "StudentName?.errors?.['minlength']"> 
+                        MinLength Error 
+                    </span>                   
+                </div>
+          </div>
+  
+          <div class="form-group">
+              <label for="name">Student Email</label>
+              <input type="text" class="form-control" formControlName="student_email" 
+                data-toggle="tooltip" data-placement="right" title="Enter Student Email" [(ngModel)]="studentToUpdate.student_email">
+                <div class="alert alert-danger" *ngIf = "(StudentEmail?.touched) && (StudentEmail?.invalid)" 
+                style="margin-top: 5px;">
+                  <span *ngIf="StudentEmail?.errors?.['required']">Student Email is Required</span>
+                    <span *ngIf = "StudentEmail?.errors?.['email']"> 
+                        Invalid Email Format 
+                    </span>                   
+                </div>
+          </div>
+  
+          <div class="form-group">
+              <label for="branch">Student Branch</label>
+                <select class="form-control" formControlName="student_branch" data-toggle="tooltip" 
+                      data-placement="right" title="Select Student Branch" [(ngModel)]="studentToUpdate.student_branch">
+                    <option value="null">--Select Branch--</option>
+                  <option value="B-Tech" [selected] ="'B-Tech' == studentToUpdate.student_branch">B-Tech</option>
+                  <option value="BCA" [selected] ="'BCA' == studentToUpdate.student_branch">BCA</option>
+                  <option value="MCA" [selected] ="'MCA' == studentToUpdate.student_branch">MCA</option>
+                  <option value="M-Tech" [selected] ="'M-Tech' == studentToUpdate.student_branch">M-Tech</option>
+                </select>
+          </div>
+  
+          
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button (click)="updateStu(studentToUpdate)"  type="button" class="btn btn-primary" data-bs-dismiss="modal">Update</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
