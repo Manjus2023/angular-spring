@@ -3,7 +3,7 @@ Spring Angular CRUD Application
 # angular-spring
 
 
-This is a Spring Angular Project used to enter, delete and update datas of students in a web application.
+This is a Spring Angular Project used to enter, delete and update data of students in a web application.
 
 This application contains two components,
 1.	Spring Boot: This project is used to develop CRUD RESTFul APIs for a simple Student Management System using Spring Boot, JPA, and MySQL as a Database. is the back-end application
